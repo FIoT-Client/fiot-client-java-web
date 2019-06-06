@@ -1,0 +1,45 @@
+<ui:composition template="/WEB-INF/template/layout.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <ui:define name="title">WEB 2 - Página inicial</ui:define>
+
+    <ui:define name="content">
+        <!--        <h1>Login / Sign Up</h1>-->
+        <h:form styleClass="form">
+            <div class="row">
+                <div class="col-md-6">
+                    <h2>Login</h2>
+                    <div class="form-group">
+                        <h:outputLabel for="login-username" value="Username"/>
+                        <h:inputText id="login-username" value="#{loginBean.username}"/>
+                    </div>
+                    <div class="form-group">
+                        <h:outputLabel for="login-password" value="Password" role=""/>
+                        <h:inputText id="login-password" role="password" value="#{loginBean.password}"/>
+                    </div>
+
+                    <div class="form-group">
+                        <h:commandButton type="submit" value="Login" action="#{loginBean.login}"/>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h2>Sign Up</h2>
+                    <div class="form-group">
+                        <h:outputLabel for="signin-username" value="Username"/>
+                        <h:inputText id="signin-username" value="#{loginBean.username}"/>
+                    </div>
+                    <div class="form-group">
+                        <h:outputLabel for="signin-password" value="Password" role=""/>
+                        <h:inputText id="signin-password" role="password" value="#{loginBean.password}"/>
+                    </div>
+
+                    <div class="form-group">
+                        <h:commandButton type="submit" value="Login" action="#{signUpBean.signUp}"/>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+    </ui:define>
+
+</ui:composition>
