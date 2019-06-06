@@ -33,6 +33,7 @@
       <groupId>br.ufrn.imd</groupId>
       <artifactId>fiotclient</artifactId>
       <version>0.0.1-SNAPSHOT</version>
+      <scope>compile</scope>
     </dependency>
   </dependencies>
 
