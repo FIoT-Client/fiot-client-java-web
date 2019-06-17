@@ -4,18 +4,34 @@ import br.ufrn.imd.app.exception.BusinessException;
 import br.ufrn.imd.app.validator.Validatable;
 
 import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
+@Entity
 public class Service implements Serializable, Validatable {
 
-    private String name;
+    @Id
+    private Integer id;
     private String path;
+    private String name;
     private String API;
 
     public Service(String name, String path, String API) {
-
+        this();
         this.name = name;
         this.path = path;
         this.API = API;
+    }
+
+    public Service() {
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {

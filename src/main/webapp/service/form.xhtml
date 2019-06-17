@@ -13,18 +13,18 @@
                 <h3>Create New Service</h3>
                 <div class="form-group">
                     <h:outputLabel for="service-name" value="Service Name"/>
-                    <h:inputText id="service-name"
+                    <h:inputText id="service-name" value="#{serviceBean.serviceName}"
                                  pt:placeholder="Ex: UFRNService"/>
                 </div>
                 <div class="form-group">
                     <h:outputLabel for="service-path" value="Service Path"/>
-                    <h:inputText id="service-path"
+                    <h:inputText id="service-path" value="#{serviceBean.servicePath}"
                                  pt:placeholder="Ex: /ufrn"/>
                 </div>
 
                 <div class="form-group">
                     <h:outputLabel for="service-api" value="Service API"/>
-                    <h:inputText id="service-api"
+                    <h:inputText id="service-api" value="#{serviceBean.serviceAPI}"
                                  pt:placeholder="Ex: a12af162adfe84"/>
                 </div>
 
