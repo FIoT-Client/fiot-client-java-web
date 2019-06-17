@@ -1,12 +1,43 @@
 <ui:composition template="/WEB-INF/template/layout.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://xmlns.jcp.org/jsf/html">
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:define name="title">WEB 2 - Página inicial</ui:define>
 
     <ui:define name="content">
         <h1>Página Inicial</h1>
 
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-5">
+                    <h3>Select Service</h3>
+                    <h:form styleClass="form">
+                        <div class="form-group">
+                            <h:outputLabel for="service-selection" value="Service Name"/>
+                            <h:selectOneMenu id="service-selection" value="#{serviceBean.exemplo}">
+                                <f:selectItem itemValue="0" itemLabel="select a service" itemDisabled="true"/>
+                                <f:selectItem itemValue="1" itemLabel="Item 1"/>
+                                <f:selectItem itemValue="2" itemLabel="Item 2"/>
+                            </h:selectOneMenu>
+                        </div>
+                        <div class="form-group">
+                            <h:commandButton styleClass="btn btn-primary" value="Select Service"/>
+                        </div>
+                        <div class="form-group">
+                            <h:commandButton styleClass="btn btn-primary" value="Create a New Service"/>
+                        </div>
+
+                    </h:form>
+                </div>
+            </div>
+<!--            <h2>Context Path</h2>-->
+<!--            <div>${pageContext}</div>-->
+<!--            <div>${pageContext.request}</div>-->
+<!--            <div>${pageContext.request.contextPath}</div>-->
+
+        </div>
     </ui:define>
 
 </ui:composition>

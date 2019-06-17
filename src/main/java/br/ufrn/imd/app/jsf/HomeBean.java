@@ -11,7 +11,11 @@ import javax.inject.Named;
 @Named
 @RequestScoped
 public class HomeBean {
-    public String login() {
-        return "index";
+
+    private static final String HOME_PAGE = "home";
+
+    public String index() {
+        return HOME_PAGE;
     }
+
 }
