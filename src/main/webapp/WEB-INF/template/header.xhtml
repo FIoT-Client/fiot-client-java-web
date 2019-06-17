@@ -9,16 +9,23 @@
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse"
                             data-target=".navbar-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
+                        <span class="icon-bar"/>
+                        <span class="icon-bar"/>
+
                     </button>
-                    <h:commandLink action="/index" value="FIoT Web"
-                                   styleClass="navbar-brand"/>
+                    <h:commandLink action="#{homeBean.index}" value="FIoT Web"
+                                   styleClass="navbar-brand navbar-left" rendered="#{userBean.logged}"/>
+                    <h:commandLink action="#{loginBean.loginPage}" value="FIoT Web"
+                                   styleClass="navbar-brand navbar-left" rendered="#{!userBean.logged}"/>
                 </div>
+
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav navbar-right">
                         <li>
-                            <!--              <h:commandLink action="/funcionario/index" value="Funcionario"/>-->
+                            <h:commandLink action="/home" value="Dashboard" rendered="#{userBean.logged}"/>
+                        </li>
+                        <li>
+                            <h:commandLink value="Logout" action="#{userBean.logout}" rendered="#{userBean.logged}"/>
                         </li>
                     </ul>
                 </div>
