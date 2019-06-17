@@ -26,16 +26,13 @@
                             <h:commandButton styleClass="btn btn-primary" value="Select Service"/>
                         </div>
                         <div class="form-group">
-                            <h:commandButton styleClass="btn btn-primary" value="Create a New Service"/>
+                            <h:commandButton styleClass="btn btn-primary" value="Create a New Service"
+                                             action="#{serviceBean.createPage}"/>
                         </div>
 
                     </h:form>
                 </div>
             </div>
-<!--            <h2>Context Path</h2>-->
-<!--            <div>${pageContext}</div>-->
-<!--            <div>${pageContext.request}</div>-->
-<!--            <div>${pageContext.request.contextPath}</div>-->
 
         </div>
     </ui:define>

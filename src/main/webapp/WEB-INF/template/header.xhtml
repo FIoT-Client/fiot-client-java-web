@@ -13,25 +13,21 @@
                         <span class="icon-bar"/>
 
                     </button>
-
                     <h:commandLink action="#{homeBean.index}" value="FIoT Web"
                                    styleClass="navbar-brand navbar-left" rendered="#{userBean.logged}"/>
                     <h:commandLink action="#{loginBean.loginPage}" value="FIoT Web"
                                    styleClass="navbar-brand navbar-left" rendered="#{!userBean.logged}"/>
+                </div>
 
-                    <div class="navbar-collapse collapse">
-                        <ul class="nav navbar-nav navbar-right">
-                            <li><h:commandLink action="/home" value="Dashboard" disabled="#{!userBean.logged}"/></li>
-                            <li><h:commandLink action="/service" value="Services" disabled="true"/></li>
-
-                            <li style="color:#ddd">
-                                <h:outputText styleClass="has-success" value="Bem vindo, #{userBean.username}."
-                                              rendered="#{userBean.logged}"/>
-                                <h:commandLink value="Logout" action="#{userBean.logout}"
-                                               rendered="#{userBean.logged}"/>
-                            </li>
-                        </ul>
-                    </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <h:commandLink action="/home" value="Dashboard" rendered="#{userBean.logged}"/>
+                        </li>
+                        <li>
+                            <h:commandLink value="Logout" action="#{userBean.logout}" rendered="#{userBean.logged}"/>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
