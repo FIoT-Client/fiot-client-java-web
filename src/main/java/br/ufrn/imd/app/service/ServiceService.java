@@ -5,6 +5,7 @@ import br.ufrn.imd.app.dao.ServiceDao;
 import br.ufrn.imd.app.exception.BusinessException;
 import br.ufrn.imd.app.model.Service;
 import br.ufrn.imd.app.validator.Validatable;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -13,7 +14,7 @@ import javax.persistence.PersistenceContext;
 @Stateless
 public class ServiceService implements ServiceI<Service> {
 
-  @PersistenceContext(unitName = "fiot")
+  @PersistenceContext(unitName = "fiot") // , type = PersistenceContextType.EXTENDED)
   EntityManager entityManager;
 
   private DaoI<Service> dao;
@@ -27,7 +28,16 @@ public class ServiceService implements ServiceI<Service> {
   public Service save(Service entity) throws BusinessException {
     validate(entity);
 
-    return dao.save(entity);
+    try {
+      return dao.save(entity);
+    } catch (Throwable e) {
+      throw new BusinessException(e.getMessage());
+    }
+  }
+
+  @Override
+  public List<Service> findAll() {
+    return dao.findAll();
   }
 
   private void validate(Validatable entity) throws BusinessException {

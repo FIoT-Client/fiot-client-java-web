@@ -7,9 +7,10 @@
     <description>
       Persistence Unit for FIOT Web Client.
     </description>
-    <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+    <!--    <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>-->
 
-    <non-jta-data-source>java:jboss/datasources/fiotDS</non-jta-data-source>
+    <jta-data-source>java:jboss/datasources/fiotDS</jta-data-source>
+    <shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
 
     <properties>
       <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL57Dialect"/>

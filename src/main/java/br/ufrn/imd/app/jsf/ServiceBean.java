@@ -4,7 +4,6 @@ import br.ufrn.imd.app.exception.BusinessException;
 import br.ufrn.imd.app.model.Service;
 import br.ufrn.imd.app.service.ServiceI;
 import javax.ejb.EJB;
-import javax.ejb.Stateless;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -27,6 +26,8 @@ public class ServiceBean {
 
   private String exemplo = "0";
 
+  private String serviceId;
+
   public String createPage() {
     return SERVICE_FORM_PAGE;
   }
@@ -40,14 +41,17 @@ public class ServiceBean {
     try {
       Service newService = new Service(serviceName, servicePath, serviceApi);
       newService = service.save(newService);
-      System.out.println("Salvou: \n" + newService);
+      message.setSuccess("Salvou com sucesso.\n" + newService);
+      //      clearForm();
+      return "./home.xhtml";
     } catch (BusinessException e) {
       message.setError(e.getMessage());
       return SERVICE_FORM_PAGE;
     }
+  }
 
-    // TODO: change for Service listing
-    return "home";
+  private void clearForm() {
+    servicePath = serviceName = serviceApi = "";
   }
 
   public String getServiceName() {

@@ -16,8 +16,9 @@
                     <h:form styleClass="form">
                         <div class="form-group">
                             <h:outputLabel for="service-selection" value="Service Name"/>
-                            <h:selectOneMenu id="service-selection" value="#{serviceBean.exemplo}">
-                                <f:selectItem itemValue="0" itemLabel="select a service" itemDisabled="true"/>
+                            <h:selectOneMenu id="service-selection" value="#{homeBean.serviceId}">
+                                <f:selectItem itemValue="0" itemLabel="select a service"
+                                              itemDisabled="true"/>
                                 <f:selectItem itemValue="1" itemLabel="Item 1"/>
                                 <f:selectItem itemValue="2" itemLabel="Item 2"/>
                             </h:selectOneMenu>
@@ -26,7 +27,8 @@
                             <h:commandButton styleClass="btn btn-primary" value="Select Service"/>
                         </div>
                         <div class="form-group">
-                            <h:commandButton styleClass="btn btn-primary" value="Create a New Service"
+                            <h:commandButton styleClass="btn btn-primary"
+                                             value="Create a New Service"
                                              action="#{serviceBean.createPage}"/>
                         </div>
 

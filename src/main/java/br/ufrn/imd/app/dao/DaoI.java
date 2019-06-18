@@ -1,7 +1,10 @@
 package br.ufrn.imd.app.dao;
 
 import br.ufrn.imd.app.exception.BusinessException;
+import br.ufrn.imd.app.model.Service;
 import br.ufrn.imd.app.validator.Validatable;
+import java.util.List;
+import javax.transaction.Transactional;
 
 /**
  * Represents a generic interface binding of a Dao.
@@ -16,5 +19,9 @@ public interface DaoI<T extends Validatable> {
    * @return the updated entity from database
    * @throws BusinessException in case a business rule go wrong
    */
+  @Transactional
   T save(T entity) throws BusinessException;
+
+  @Transactional
+  List<Service> findAll();
 }

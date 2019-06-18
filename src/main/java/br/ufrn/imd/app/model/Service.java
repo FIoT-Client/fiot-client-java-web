@@ -4,23 +4,40 @@ import br.ufrn.imd.app.exception.BusinessException;
 import br.ufrn.imd.app.validator.Validatable;
 import java.io.Serializable;
 import java.util.UUID;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 /**
  * Entity that representes a Service, a project unit that contains several devices and belongs to a
  * User.
  */
 @Entity
+@Table(name = "services")
 public class Service implements Serializable, Validatable {
 
   @GeneratedValue
   @Id
+  @Column(name = "id_service")
   private Integer id;
+
+  @Column(name = "name", unique = true)
   private String name;
+
+  @Column(name = "path", unique = true)
   private String path;
+
+  @Column(name = "api")
   private String api;
+
+  @JoinColumn(name = "owner")
+  @ManyToOne(cascade = CascadeType.ALL)
+  private User owner;
 
   /**
    * Constructor for new Services, missing id.
@@ -82,6 +99,29 @@ public class Service implements Serializable, Validatable {
 
   public void setApi(String theApi) {
     this.api = theApi;
+  }
+
+  public User getOwner() {
+    return owner;
+  }
+
+  public void setOwner(User owner) {
+    this.owner = owner;
+  }
+
+  @Override
+  public String toString() {
+    return "Service{"
+        + "name='"
+        + name
+        + '\''
+        + ", path='"
+        + path
+        + '\''
+        + ", api='"
+        + api
+        + '\''
+        + '}';
   }
 
   @Override
