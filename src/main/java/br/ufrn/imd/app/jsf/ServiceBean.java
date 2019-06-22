@@ -42,16 +42,11 @@ public class ServiceBean {
       Service newService = new Service(serviceName, servicePath, serviceApi);
       newService = service.save(newService);
       message.setSuccess("Salvou com sucesso.\n" + newService);
-      //      clearForm();
       return "/home";
     } catch (BusinessException e) {
       message.setError(e.getMessage());
       return SERVICE_FORM_PAGE;
     }
-  }
-
-  private void clearForm() {
-    servicePath = serviceName = serviceApi = "";
   }
 
   public String getServiceName() {
@@ -84,5 +79,13 @@ public class ServiceBean {
 
   public void setExemplo(String exemplo) {
     this.exemplo = exemplo;
+  }
+
+  public String getServiceId() {
+    return serviceId;
+  }
+
+  public void setServiceId(String serviceId) {
+    this.serviceId = serviceId;
   }
 }

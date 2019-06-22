@@ -2,11 +2,9 @@ package br.ufrn.imd.app.service;
 
 import br.ufrn.imd.app.exception.BusinessException;
 import java.util.List;
-import javax.ejb.Local;
-import javax.ejb.Remote;
 
 /**
- * Represents a generic interface binding to the service layer
+ * Represents a generic interface binding to the service layer.
  *
  * @param <T> the kind of entity being manipulated
  */

@@ -30,7 +30,7 @@ public class ServiceService implements ServiceI<Service> {
 
     try {
       return dao.save(entity);
-    } catch (Throwable e) {
+    } catch (Exception e) {
       throw new BusinessException(e.getMessage());
     }
   }

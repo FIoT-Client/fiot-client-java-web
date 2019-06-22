@@ -13,30 +13,30 @@ import javax.inject.Named;
 @SessionScoped
 public class UserBean implements Serializable {
 
-    private User user;
+  private User user;
 
-    public String logout() {
-        user = null;
-        return "login";
-    }
+  public String logout() {
+    user = null;
+    return "login";
+  }
 
-    public boolean isLogged() {
-        return user != null && user.getUsername() != null && !user.getUsername().isEmpty();
-    }
+  public boolean isLogged() {
+    return user != null && user.getUsername() != null && !user.getUsername().isEmpty();
+  }
 
-    public User getUser() {
-        return user;
-    }
+  public User getUser() {
+    return user;
+  }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
+  public void setUser(User user) {
+    this.user = user;
+  }
 
-    public void login(User user) {
-        this.user = user;
-    }
+  public void login(User user) {
+    this.user = user;
+  }
 
-    public String getUsername() {
-        return user != null ? user.getUsername() : "";
-    }
+  public String getUsername() {
+    return user != null ? user.getUsername() : "";
+  }
 }
