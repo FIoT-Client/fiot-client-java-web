@@ -2,11 +2,9 @@ package br.ufrn.imd.app.dao;
 
 import br.ufrn.imd.app.exception.BusinessException;
 import br.ufrn.imd.app.model.Service;
-import java.util.Collections;
 import java.util.List;
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
 /** Represents the persistence data manipulation for Service entity. */

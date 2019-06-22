@@ -43,7 +43,7 @@ public class ServiceBean {
       newService = service.save(newService);
       message.setSuccess("Salvou com sucesso.\n" + newService);
       //      clearForm();
-      return "./home.xhtml";
+      return "/home";
     } catch (BusinessException e) {
       message.setError(e.getMessage());
       return SERVICE_FORM_PAGE;
