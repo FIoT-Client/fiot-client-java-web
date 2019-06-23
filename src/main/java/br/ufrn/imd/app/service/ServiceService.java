@@ -40,6 +40,23 @@ public class ServiceService implements ServiceI<Service> {
     return dao.findAll();
   }
 
+  @Override
+  public Service findById(String id) throws BusinessException {
+    int intId;
+    try {
+      intId = Integer.parseInt(id);
+    } catch (NumberFormatException e) {
+      throw new BusinessException("Id: invalid field.");
+    }
+
+    return findById(intId);
+  }
+
+  private Service findById(Integer id) throws BusinessException {
+    return dao.findById(id)
+        .orElseThrow(() -> new BusinessException("Can't find Service with id (" + id + ")"));
+  }
+
   private void validate(Validatable entity) throws BusinessException {
     entity.validate();
   }

@@ -5,16 +5,18 @@ import br.ufrn.imd.app.model.Service;
 import br.ufrn.imd.app.service.ServiceI;
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Stream;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import net.bytebuddy.pool.TypePool.Resolution.Illegal;
 
 @Named
 @RequestScoped
-public class ServiceBean {
+public class ServiceBean extends AbstractBean {
 
   private static final String SERVICE_FORM_PAGE = "service/form";
 
@@ -48,7 +50,7 @@ public class ServiceBean {
       newService = service.save(newService);
 
       message.setSuccess("Salvou com sucesso.\n" + newService);
-      return "/home";
+      return forward(HomeBean.HOME_PAGE);
     } catch (BusinessException e) {
       message.setError(e.getMessage());
       return SERVICE_FORM_PAGE;
@@ -97,39 +99,16 @@ public class ServiceBean {
    * @return redirect to devices page
    */
   public String selectService() {
-    // TODO find Service by id and save in session
-  }
+    // TODO save in session
+    try {
+      Service found = service.findById(serviceId);
+      System.err.println("Achou: " + found);
+    } catch (BusinessException e) {
+      message.setError(e.getMessage());
+    }
 
     // TODO redirect to device page
-
-    return HomeBean.HOME_PAGE;
+    return redirect(HomeBean.HOME_PAGE);
   }
 
-  /**
-   * Forwards to another page
-   *
-   * @param uri the uri from resource
-   */
-  void forward(String uri) {
-    ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
-    try {
-      externalContext.redirect(uri);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-  }
-
-  /**
-   * Redirects to another page or resource
-   *
-   * @param uri the uri from the page or resource
-   */
-  void redirect(String uri) {
-    ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
-    try {
-      externalContext.redirect(uri);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-  }
 }

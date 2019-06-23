@@ -3,6 +3,7 @@ package br.ufrn.imd.app.dao;
 import br.ufrn.imd.app.exception.BusinessException;
 import br.ufrn.imd.app.model.Service;
 import java.util.List;
+import java.util.Optional;
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
@@ -32,5 +33,14 @@ public class ServiceDao implements DaoI<Service> {
   @Override
   public List<Service> findAll() {
     return entityManager.createQuery("SELECT s FROM Service s", Service.class).getResultList();
+  }
+
+  @Override
+  public Optional<Service> findById(Object id) throws BusinessException {
+    if (!(id instanceof Integer)) {
+      throw new BusinessException("Service: incompatible id.");
+    }
+
+    return Optional.ofNullable(entityManager.find(Service.class, id));
   }
 }

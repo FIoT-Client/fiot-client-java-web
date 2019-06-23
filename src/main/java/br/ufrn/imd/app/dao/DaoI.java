@@ -4,6 +4,7 @@ import br.ufrn.imd.app.exception.BusinessException;
 import br.ufrn.imd.app.model.Service;
 import br.ufrn.imd.app.validator.Validatable;
 import java.util.List;
+import java.util.Optional;
 import javax.transaction.Transactional;
 
 /**
@@ -22,6 +23,19 @@ public interface DaoI<T extends Validatable> {
   @Transactional
   T save(T entity) throws BusinessException;
 
+  /**
+   * Query the database for all entities of that kind.
+   *
+   * @return a list of entities
+   */
   @Transactional
   List<Service> findAll();
+
+  /**
+   * Searches for a entity by the id
+   *
+   * @param id the id of the object
+   * @return a optional that may contain a entity, if exists.
+   */
+  Optional<T> findById(Object id) throws BusinessException;
 }

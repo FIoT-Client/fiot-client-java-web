@@ -7,12 +7,21 @@
     <ui:define name="title">WEB 2 - Página inicial</ui:define>
 
     <ui:define name="content">
-        <h1>Página Inicial</h1>
+        <h1>Dashboard</h1>
 
         <div class="container">
             <h:form styleClass="form">
                 <div class="row">
-                    <div class="col-sm-12 col-md-6">
+                    <div class="col-sm-12 col-md-offset-2 col-md-4">
+                        <div class="form-group">
+                            <h3>New Service</h3>
+                            <h:commandButton styleClass="btn btn-dark"
+                                             value="Create a New Service"
+                                             action="#{serviceBean.createPage}"/>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12 col-md-4">
                         <h3>Select Service</h3>
                         <div class="form-group">
                             <h:outputLabel for="service-selection" value="Service Name"/>
@@ -32,15 +41,6 @@
                         <div class="form-group">
                             <h:commandButton styleClass="btn btn-dark" value="Select Service"
                                              action="#{serviceBean.selectService}"/>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-12 col-md-6">
-                        <div class="form-group">
-                            <h3>New Service</h3>
-                            <h:commandButton styleClass="btn btn-dark"
-                                             value="Create a New Service"
-                                             action="#{serviceBean.createPage}"/>
                         </div>
                     </div>
 

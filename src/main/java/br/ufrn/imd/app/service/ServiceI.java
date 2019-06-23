@@ -25,4 +25,6 @@ public interface ServiceI<T> {
    * @return a List of T entities
    */
   List<T> findAll();
+
+  T findById(String id) throws BusinessException;
 }

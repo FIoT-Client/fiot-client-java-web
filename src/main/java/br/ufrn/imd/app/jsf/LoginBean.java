@@ -11,9 +11,9 @@ import javax.inject.Named;
  */
 @Named
 @RequestScoped
-public class LoginBean {
+public class LoginBean extends AbstractBean {
 
-  private static final String LOGIN_PAGE = "login";
+  private static final String LOGIN_PAGE = "/login";
 
   @Inject
   private UserBean userBean;
@@ -60,7 +60,7 @@ public class LoginBean {
     return "home";
   }
 
-  public String loginPage() {
-    return LOGIN_PAGE;
+  public static String loginPage() {
+    return redirect(LOGIN_PAGE);
   }
 }
