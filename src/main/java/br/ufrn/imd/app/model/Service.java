@@ -4,23 +4,36 @@ import br.ufrn.imd.app.exception.BusinessException;
 import br.ufrn.imd.app.validator.Validatable;
 import java.io.Serializable;
 import java.util.UUID;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  * Entity that representes a Service, a project unit that contains several devices and belongs to a
  * User.
  */
 @Entity
+@Table(name = "services")
 public class Service implements Serializable, Validatable {
 
   @GeneratedValue
   @Id
+  @Column(name = "id_service")
   private Integer id;
+
+  @Column(name = "name", unique = true)
   private String name;
+
+  @Column(name = "path", unique = true)
   private String path;
+
+  @Column(name = "api")
   private String api;
+
+  @Column(name = "owner")
+  private String owner = "admin";
 
   /**
    * Constructor for new Services, missing id.
@@ -49,8 +62,7 @@ public class Service implements Serializable, Validatable {
     this.api = UUID.randomUUID().toString();
   }
 
-  public Service() {
-  }
+  public Service() {}
 
   public Integer getId() {
     return id;
@@ -85,6 +97,23 @@ public class Service implements Serializable, Validatable {
   }
 
   @Override
+  public String toString() {
+    return "Service{"
+        + "name='"
+        + name
+        + '\''
+        + ", path='"
+        + path
+        + '\''
+        + ", api='"
+        + api
+        + ", owner='"
+        + owner
+        + '\''
+        + '}';
+  }
+
+  @Override
   public void validate() throws BusinessException {
     StringBuilder builder = new StringBuilder();
     if (name == null || name.isEmpty()) {
@@ -93,10 +122,6 @@ public class Service implements Serializable, Validatable {
 
     if (path == null || path.isEmpty()) {
       builder.append("Path: required field.").append(System.lineSeparator());
-    }
-
-    if (api == null || api.isEmpty()) {
-      builder.append("API: required field.").append(System.lineSeparator());
     }
 
     String errors = builder.toString();
