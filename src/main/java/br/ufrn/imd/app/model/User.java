@@ -1,6 +1,7 @@
 package br.ufrn.imd.app.model;
 
-import java.io.Serializable;
+import br.ufrn.imd.app.exception.BusinessException;
+import br.ufrn.imd.app.validator.Validatable;
 import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,7 +15,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "users")
-public class User implements Serializable {
+public class User implements Validatable {
 
   @Id
   @Column(name = "username")
@@ -35,9 +36,7 @@ public class User implements Serializable {
     this.username = username;
   }
 
-  /**
-   * Default constructor for new User. Generates a a salt to encrypt password on save.
-   */
+  /** Default constructor for new User. Generates a a salt to encrypt password on save. */
   public User() {
     this.salt = UUID.randomUUID().toString();
   }
@@ -64,5 +63,24 @@ public class User implements Serializable {
 
   public void setSalt(String salt) {
     this.salt = salt;
+  }
+
+  @Override
+  public void validate() throws BusinessException {
+    StringBuilder builder = new StringBuilder();
+    if (username == null || username.isEmpty()) {
+      builder.append("Username: required field.").append(System.lineSeparator());
+    }
+
+    // TODO Remove this when username persistence occurs
+    //    if (password == null || password.isEmpty()) {
+    //      builder.append("Password: required field.").append(System.lineSeparator());
+    //    }
+
+    String errors = builder.toString();
+
+    if (!errors.isEmpty()) {
+      throw new BusinessException(errors);
+    }
   }
 }

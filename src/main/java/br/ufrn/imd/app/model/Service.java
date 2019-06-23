@@ -4,13 +4,10 @@ import br.ufrn.imd.app.exception.BusinessException;
 import br.ufrn.imd.app.validator.Validatable;
 import java.io.Serializable;
 import java.util.UUID;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -35,9 +32,8 @@ public class Service implements Serializable, Validatable {
   @Column(name = "api")
   private String api;
 
-  @JoinColumn(name = "owner")
-  @ManyToOne(cascade = CascadeType.ALL)
-  private User owner;
+  @Column(name = "owner")
+  private String owner = "admin";
 
   /**
    * Constructor for new Services, missing id.
@@ -66,8 +62,7 @@ public class Service implements Serializable, Validatable {
     this.api = UUID.randomUUID().toString();
   }
 
-  public Service() {
-  }
+  public Service() {}
 
   public Integer getId() {
     return id;
@@ -101,14 +96,6 @@ public class Service implements Serializable, Validatable {
     this.api = theApi;
   }
 
-  public User getOwner() {
-    return owner;
-  }
-
-  public void setOwner(User owner) {
-    this.owner = owner;
-  }
-
   @Override
   public String toString() {
     return "Service{"
@@ -120,6 +107,8 @@ public class Service implements Serializable, Validatable {
         + '\''
         + ", api='"
         + api
+        + ", owner='"
+        + owner
         + '\''
         + '}';
   }
@@ -133,10 +122,6 @@ public class Service implements Serializable, Validatable {
 
     if (path == null || path.isEmpty()) {
       builder.append("Path: required field.").append(System.lineSeparator());
-    }
-
-    if (api == null || api.isEmpty()) {
-      builder.append("API: required field.").append(System.lineSeparator());
     }
 
     String errors = builder.toString();

@@ -10,32 +10,42 @@
         <h1>Página Inicial</h1>
 
         <div class="container">
-            <div class="row">
-                <div class="col-sm-5">
-                    <h3>Select Service</h3>
-                    <h:form styleClass="form">
+            <h:form styleClass="form">
+                <div class="row">
+                    <div class="col-sm-12 col-md-6">
+                        <h3>Select Service</h3>
                         <div class="form-group">
                             <h:outputLabel for="service-selection" value="Service Name"/>
-                            <h:selectOneMenu id="service-selection" value="#{homeBean.serviceId}">
+                            <h:selectOneMenu id="service-selection"
+                                             value="#{serviceBean.serviceId}">
+                                <f:selectItem itemValue="0" itemLabel="Select a service"
+                                              itemDisabled="true"
+                                              noSelectionOption="true"/>
 
-                                <f:selectItem itemValue="0" itemLabel="select a service"
-                                              itemDisabled="true"/>
-                                <f:selectItem itemValue="1" itemLabel="Item 1"/>
-                                <f:selectItem itemValue="2" itemLabel="Item 2"/>
+                                <f:selectItems value="#{serviceBean.allServices}" var="service"
+                                               itemDescription="#{service.name}"
+                                               itemLabel="#{service.name} - #{service.path}"
+                                               itemValue="#{service.id}"/>
                             </h:selectOneMenu>
                         </div>
+
                         <div class="form-group">
-                            <h:commandButton styleClass="btn btn-primary" value="Select Service"/>
+                            <h:commandButton styleClass="btn btn-dark" value="Select Service"
+                                             action="#{serviceBean.selectService}"/>
                         </div>
+                    </div>
+
+                    <div class="col-sm-12 col-md-6">
                         <div class="form-group">
-                            <h:commandButton styleClass="btn btn-primary"
+                            <h3>New Service</h3>
+                            <h:commandButton styleClass="btn btn-dark"
                                              value="Create a New Service"
                                              action="#{serviceBean.createPage}"/>
                         </div>
+                    </div>
 
-                    </h:form>
                 </div>
-            </div>
+            </h:form>
 
         </div>
     </ui:define>
