@@ -10,11 +10,11 @@ import javax.inject.Named;
  */
 @Named
 @RequestScoped
-public class HomeBean {
+public class HomeBean extends AbstractBean {
 
   static final String HOME_PAGE = "/home";
 
-  public String index() {
-    return HOME_PAGE;
+  public static String index() {
+    return redirect(HOME_PAGE);
   }
 }
