@@ -22,7 +22,10 @@
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav navbar-right">
                         <li>
-                            <h:commandLink action="/home" value="Dashboard" rendered="#{userBean.logged}"/>
+                            <h:commandLink action="#{homeBean.index}" value="Dashboard" rendered="#{userBean.logged}"/>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{serviceBean.indexPage}" value="Services" rendered="#{userBean.logged}"/>
                         </li>
                         <li>
                             <h:commandLink value="Logout" action="#{userBean.logout}" rendered="#{userBean.logged}"/>

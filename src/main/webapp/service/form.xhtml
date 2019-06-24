@@ -8,39 +8,42 @@
     <ui:define name="content">
 
         <div class="row">
+            <div class="container">
+                <h:form styleClass="form">
+                    <div class="col-sm-12">
+                        <h2>Service</h2>
+                        <h3>New Service</h3>
+                        <div class="form-group">
+                            <h:outputLabel for="service-name" value="Service Name"/>
+                            <h:inputText id="service-name" value="#{serviceBean.serviceName}"
+                                         pt:placeholder="Ex: UFRNService" required="true"/>
+                        </div>
 
-            <h:form styleClass="form">
-                <div class="col-sm-12">
+                        <div class="form-group">
+                            <h:outputLabel for="service-path" value="Service Path"/>
+                            <h:inputText id="service-path" value="#{serviceBean.servicePath}"
+                                         pt:placeholder="Ex: /ufrn" required="true"/>
+                        </div>
 
-                    <h3>Create New Service</h3>
-                    <div class="form-group">
-                        <h:outputLabel for="service-name" value="Service Name"/>
-                        <h:inputText id="service-name" value="#{serviceBean.serviceName}"
-                                     pt:placeholder="Ex: UFRNService" required="true"/>
+                        <div class="form-group">
+                            <h:outputLabel for="service-api" value="Service API (optional)"/>
+                            <h:inputText id="service-api" value="#{serviceBean.serviceApi}"
+                                         pt:placeholder="Ex: a12af162adfe84" required="false"/>
+                        </div>
+
+                        <div class="form-group">
+                            <h:commandButton styleClass="btn btn-primary" value="Create Service"
+                                             action="#{serviceBean.create}"/>
+                        </div>
+                        <div class="form-group">
+                            <h:commandButton styleClass="btn" value="Back"
+                                             action="#{homeBean.index}"
+                                             immediate="true"/>
+                        </div>
+
                     </div>
-
-                    <div class="form-group">
-                        <h:outputLabel for="service-path" value="Service Path"/>
-                        <h:inputText id="service-path" value="#{serviceBean.servicePath}"
-                                     pt:placeholder="Ex: /ufrn" required="true"/>
-                    </div>
-
-                    <div class="form-group">
-                        <h:outputLabel for="service-api" value="Service API (optional)"/>
-                        <h:inputText id="service-api" value="#{serviceBean.serviceApi}"
-                                     pt:placeholder="Ex: a12af162adfe84" required="false"/>
-                    </div>
-
-                    <div class="form-group">
-                        <h:commandButton styleClass="btn btn-primary" value="Create Service"
-                                         action="#{serviceBean.create}"/>
-                    </div>
-                    <div class="form-group">
-                        <h:commandButton styleClass="btn" value="Back" action="#{homeBean.index}"/>
-                    </div>
-
-                </div>
-            </h:form>
+                </h:form>
+            </div>
         </div>
 
     </ui:define>
