@@ -5,6 +5,8 @@ import br.ufrn.imd.app.dao.ServiceDao;
 import br.ufrn.imd.app.exception.BusinessException;
 import br.ufrn.imd.app.model.Service;
 import br.ufrn.imd.app.validator.Validatable;
+import br.ufrn.imd.fiotclient.iot.FiwareIotClient;
+import java.io.IOException;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
@@ -17,11 +19,25 @@ public class ServiceService implements ServiceI<Service> {
   @PersistenceContext(unitName = "fiot") // , type = PersistenceContextType.EXTENDED)
   EntityManager entityManager;
 
+  private FiwareIotClient fiotIot;
   private DaoI<Service> dao;
 
   @PostConstruct
   public void init() {
     this.dao = new ServiceDao(entityManager);
+    try {
+      this.fiotIot = new FiwareIotClient(getConfigLocation());
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  private String getConfigLocation() {
+    String configFile =
+        this.getClass().getProtectionDomain().getCodeSource().getLocation().getFile();
+
+    configFile += '/' + "config.ini";
+    return configFile;
   }
 
   @Override

@@ -3,16 +3,11 @@ package br.ufrn.imd.app.jsf;
 import br.ufrn.imd.app.exception.BusinessException;
 import br.ufrn.imd.app.model.Service;
 import br.ufrn.imd.app.service.ServiceI;
-import java.io.IOException;
 import java.util.List;
-import java.util.stream.Stream;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import net.bytebuddy.pool.TypePool.Resolution.Illegal;
 
 @Named
 @RequestScoped
@@ -110,5 +105,4 @@ public class ServiceBean extends AbstractBean {
     // TODO redirect to device page
     return redirect(HomeBean.HOME_PAGE);
   }
-
 }
