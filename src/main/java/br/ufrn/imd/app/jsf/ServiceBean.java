@@ -4,6 +4,7 @@ import br.ufrn.imd.app.exception.BusinessException;
 import br.ufrn.imd.app.model.Service;
 import br.ufrn.imd.app.service.ServiceI;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -13,7 +14,8 @@ import javax.inject.Named;
 @RequestScoped
 public class ServiceBean extends AbstractBean {
 
-  private static final String SERVICE_FORM_PAGE = "service/form";
+  private static final String SERVICE_DASHBOARD_PAGE = "/service/index";
+  private static final String SERVICE_FORM_PAGE = "/service/form";
 
   @EJB private ServiceI<Service> service;
 
@@ -23,11 +25,20 @@ public class ServiceBean extends AbstractBean {
   private String servicePath;
   private String serviceApi;
 
-  private String serviceId;
+  private Integer serviceId;
+  private List<Service> services;
+
+  /** Initialize the session bean. */
+  @PostConstruct
+  public void init() {}
+
+  public String indexPage() {
+    return forward(SERVICE_DASHBOARD_PAGE);
+  }
 
   public String createPage() {
-    return SERVICE_FORM_PAGE;
-  }
+    return forward(SERVICE_FORM_PAGE);
+  } 
 
   /**
    * Saves the Service unit into the database.
@@ -44,12 +55,18 @@ public class ServiceBean extends AbstractBean {
 
       newService = service.save(newService);
 
+      clearForm();
+
       message.setSuccess("Salvou com sucesso.\n" + newService);
-      return forward(HomeBean.HOME_PAGE);
+      return redirect(SERVICE_DASHBOARD_PAGE);
     } catch (BusinessException e) {
       message.setError(e.getMessage());
-      return SERVICE_FORM_PAGE;
+      return forward(SERVICE_FORM_PAGE);
     }
+  }
+
+  private void clearForm() {
+    serviceName = servicePath = serviceApi = "";
   }
 
   public String getServiceName() {
@@ -76,16 +93,19 @@ public class ServiceBean extends AbstractBean {
     this.serviceApi = serviceApi;
   }
 
-  public String getServiceId() {
+  public Integer getServiceId() {
     return serviceId;
   }
 
-  public void setServiceId(String serviceId) {
+  public void setServiceId(Integer serviceId) {
     this.serviceId = serviceId;
   }
 
   public List<Service> getAllServices() {
-    return service.findAll();
+    if (services == null) {
+      services = service.findAll();
+    }
+    return services;
   }
 
   /**
@@ -102,7 +122,25 @@ public class ServiceBean extends AbstractBean {
       message.setError(e.getMessage());
     }
 
-    // TODO redirect to device page
     return redirect(HomeBean.HOME_PAGE);
+  }
+
+  /**
+   * Delete a service from database.
+   *
+   * @param serviceId the id of the service to be deleted
+   * @return the redirection page
+   */
+  public String delete(Integer serviceId) {
+
+    try {
+      service.delete(new Service(serviceId));
+
+      message.setSuccess("Service deleted successfully.");
+    } catch (BusinessException e) {
+      message.setError(e.getMessage());
+    }
+
+    return forward(SERVICE_DASHBOARD_PAGE);
   }
 }

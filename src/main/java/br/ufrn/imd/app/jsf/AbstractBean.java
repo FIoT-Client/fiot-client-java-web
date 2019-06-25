@@ -1,15 +1,17 @@
 package br.ufrn.imd.app.jsf;
 
 import java.io.IOException;
+import java.io.Serializable;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
-public abstract class AbstractBean {
+public abstract class AbstractBean implements Serializable {
 
   /**
    * Forwards to another page keeping request information.
    *
    * @param uri the uri from resource
+   * @return a null for page view reloading
    */
   protected static String forward(String uri) {
     ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
@@ -22,11 +24,12 @@ public abstract class AbstractBean {
   }
 
   /**
-   * Redirects to another page or resource
+   * Redirects to another page or resource.
    *
    * @param uri the uri from the page or resource
    * @throws IllegalArgumentException if the uri empty
    * @throws NullPointerException if the uri is null
+   * @return a null for page view reloading
    */
   protected static String redirect(String uri) {
     if (uri == null) {

@@ -38,4 +38,6 @@ public interface DaoI<T extends Validatable> {
    * @return a optional that may contain a entity, if exists.
    */
   Optional<T> findById(Object id) throws BusinessException;
+
+  void delete(T entity) throws BusinessException;
 }

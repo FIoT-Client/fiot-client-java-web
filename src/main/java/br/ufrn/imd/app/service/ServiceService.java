@@ -57,20 +57,20 @@ public class ServiceService implements ServiceI<Service> {
   }
 
   @Override
-  public Service findById(String id) throws BusinessException {
-    int intId;
-    try {
-      intId = Integer.parseInt(id);
-    } catch (NumberFormatException e) {
+  public Service findById(Object id) throws BusinessException {
+    if (id != null && !(id instanceof Integer)) {
       throw new BusinessException("Id: invalid field.");
     }
 
-    return findById(intId);
+    return dao.findById(id)
+        .orElseThrow(
+            () -> new BusinessException("Can't find Service with id (" + id + ")"));
   }
 
-  private Service findById(Integer id) throws BusinessException {
-    return dao.findById(id)
-        .orElseThrow(() -> new BusinessException("Can't find Service with id (" + id + ")"));
+  @Override
+  public void delete(Service entity) throws BusinessException {
+
+    dao.delete(entity);
   }
 
   private void validate(Validatable entity) throws BusinessException {

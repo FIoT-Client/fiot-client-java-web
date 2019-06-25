@@ -26,5 +26,7 @@ public interface ServiceI<T> {
    */
   List<T> findAll();
 
-  T findById(String id) throws BusinessException;
+  T findById(Object id) throws BusinessException;
+
+  void delete(T entity) throws BusinessException;
 }

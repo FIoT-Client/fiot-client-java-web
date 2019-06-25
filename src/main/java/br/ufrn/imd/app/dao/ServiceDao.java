@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 
 /** Represents the persistence data manipulation for Service entity. */
@@ -22,7 +23,13 @@ public class ServiceDao implements DaoI<Service> {
   @Override
   public Service save(Service entity) throws BusinessException {
     try {
-      entityManager.persist(entity);
+      Integer id = entity.getId();
+      if (id != null && id != 0) {
+        entityManager.merge(entity);
+      } else {
+        entityManager.persist(entity);
+      }
+
     } catch (EntityExistsException e) {
       throw new BusinessException("Service: already registered entity for name/path/api.");
     }
@@ -30,11 +37,13 @@ public class ServiceDao implements DaoI<Service> {
     return entity;
   }
 
+  @Transactional
   @Override
   public List<Service> findAll() {
     return entityManager.createQuery("SELECT s FROM Service s", Service.class).getResultList();
   }
 
+  @Transactional
   @Override
   public Optional<Service> findById(Object id) throws BusinessException {
     if (!(id instanceof Integer)) {
@@ -42,5 +51,23 @@ public class ServiceDao implements DaoI<Service> {
     }
 
     return Optional.ofNullable(entityManager.find(Service.class, id));
+  }
+
+  @Transactional
+  @Override
+  public void delete(Service entity) throws BusinessException {
+    Integer id = entity.getId();
+    if (id == null || id == 0) {
+      throw new IllegalArgumentException("Service: id incorrect - " + id);
+    }
+
+    try {
+      Service service = entityManager.find(Service.class, id);
+      entityManager.remove(service);
+    } catch (EntityNotFoundException e) {
+      throw new BusinessException("Service: entity not found for id (" + id + ").");
+    } catch (IllegalArgumentException e) {
+      throw new BusinessException("Try again in a few seconds.");
+    }
   }
 }
