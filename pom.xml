@@ -1,7 +1,18 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns="http://maven.apache.org/POM/4.0.0"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <groupId>br.ufrn.imd</groupId>
   <artifactId>fiotclient-java-web</artifactId>
+  <version>0.1.0-SNAPSHOT</version>
+
+  <description>
+    A Web client application using EJB, JSF and CDI to integrate and add a quick start with FIWARE
+    development.
+  </description>
+
+  <name>FIOT Client - Java Web</name>
+  <url>https://github.com/FIoT-Client/fiot-client-java-web/</url>
 
   <build>
     <finalName>FIoT-ClientWeb</finalName>
