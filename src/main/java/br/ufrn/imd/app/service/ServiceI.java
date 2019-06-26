@@ -1,14 +1,17 @@
 package br.ufrn.imd.app.service;
 
 import br.ufrn.imd.app.exception.BusinessException;
+import br.ufrn.imd.app.validator.Validatable;
 import java.util.List;
+import javax.ejb.Local;
 
 /**
  * Represents a generic interface binding to the service layer.
  *
  * @param <T> the kind of entity being manipulated
  */
-public interface ServiceI<T> {
+@Local
+public interface ServiceI<T extends Validatable> {
 
   /**
    * Creates, or updates, a entity into the database.
@@ -29,4 +32,6 @@ public interface ServiceI<T> {
   T findById(Object id) throws BusinessException;
 
   void delete(T entity) throws BusinessException;
+
+  void validate(T entity) throws BusinessException;
 }

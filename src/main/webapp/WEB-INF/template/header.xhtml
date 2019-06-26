@@ -13,22 +13,27 @@
                         <span class="icon-bar"/>
 
                     </button>
-                    <h:commandLink action="#{homeBean.index}" value="FIoT Web"
-                                   styleClass="navbar-brand navbar-left" rendered="#{userBean.logged}"/>
-                    <h:commandLink action="#{loginBean.loginPage}" value="FIoT Web"
-                                   styleClass="navbar-brand navbar-left" rendered="#{!userBean.logged}"/>
+                    <h:commandLink action="/home?faces-redirect=true" value="FIoT Web ON"
+                                   styleClass="navbar-brand navbar-left"
+                                   rendered="#{userBean.logged}"/>
+                    <h:commandLink action="#{loginBean.loginPage}" value="FIoT Web OFF"
+                                   styleClass="navbar-brand navbar-left"
+                                   rendered="#{!userBean.logged}"/>
                 </div>
 
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav navbar-right">
                         <li>
-                            <h:commandLink action="#{homeBean.index}" value="Dashboard" rendered="#{userBean.logged}"/>
+                            <h:commandLink action="#{homeBean.index}" value="Dashboard"
+                                           rendered="#{userBean.logged}"/>
                         </li>
                         <li>
-                            <h:commandLink action="#{serviceBean.indexPage}" value="Services" rendered="#{userBean.logged}"/>
+                            <h:commandLink action="#{serviceBean.indexPage}" value="Services"
+                                           rendered="#{userBean.logged}"/>
                         </li>
                         <li>
-                            <h:commandLink value="Logout" action="#{userBean.logout}" rendered="#{userBean.logged}"/>
+                            <h:commandLink value="Logout" action="#{userBean.logout}"
+                                           rendered="#{userBean.logged}"/>
                         </li>
                     </ul>
                 </div>

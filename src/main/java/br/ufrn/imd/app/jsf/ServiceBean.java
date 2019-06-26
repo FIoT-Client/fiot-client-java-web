@@ -4,7 +4,6 @@ import br.ufrn.imd.app.exception.BusinessException;
 import br.ufrn.imd.app.model.Service;
 import br.ufrn.imd.app.service.ServiceI;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -17,7 +16,8 @@ public class ServiceBean extends AbstractBean {
   private static final String SERVICE_DASHBOARD_PAGE = "/service/index";
   private static final String SERVICE_FORM_PAGE = "/service/form";
 
-  @EJB private ServiceI<Service> service;
+  @EJB(beanName = "ServiceService")
+  private ServiceI<Service> service;
 
   @Inject private MessageBean message;
 
@@ -25,19 +25,24 @@ public class ServiceBean extends AbstractBean {
   private String servicePath;
   private String serviceApi;
 
-  private Integer serviceId;
   private List<Service> services;
 
-  /** Initialize the session bean. */
-  @PostConstruct
-  public void init() {}
-
+  /**
+   * To be accessed through jsf files.
+   *
+   * @return the redirection to index page
+   */
   public String indexPage() {
-    return forward(SERVICE_DASHBOARD_PAGE);
+    return redirect(SERVICE_DASHBOARD_PAGE);
   }
 
+  /**
+   * To be accessed through jsf files.
+   *
+   * @return the redirection to service form page
+   */
   public String createPage() {
-    return forward(SERVICE_FORM_PAGE);
+    return redirect(SERVICE_FORM_PAGE);
   }
 
   /**
@@ -58,10 +63,10 @@ public class ServiceBean extends AbstractBean {
       clearForm();
 
       message.setSuccess("Salvou com sucesso.\n" + newService);
-      return redirect(SERVICE_DASHBOARD_PAGE);
+      return SERVICE_DASHBOARD_PAGE;
     } catch (BusinessException e) {
       message.setError(e.getMessage());
-      return forward(SERVICE_FORM_PAGE);
+      return SERVICE_FORM_PAGE;
     }
   }
 
@@ -93,36 +98,16 @@ public class ServiceBean extends AbstractBean {
     this.serviceApi = serviceApi;
   }
 
-  public Integer getServiceId() {
-    return serviceId;
-  }
-
-  public void setServiceId(Integer serviceId) {
-    this.serviceId = serviceId;
-  }
-
+  /**
+   * Returns a list of all services registered.
+   *
+   * @return a list of <code>Service</code>
+   */
   public List<Service> getAllServices() {
     if (services == null) {
       services = service.findAll();
     }
     return services;
-  }
-
-  /**
-   * Selects a service and keeps it in session for device manipulation.
-   *
-   * @return redirect to devices page
-   */
-  public String selectService() {
-    // TODO save in session
-    try {
-      Service found = service.findById(serviceId);
-      System.err.println("Achou: " + found);
-    } catch (BusinessException e) {
-      message.setError(e.getMessage());
-    }
-
-    return redirect(HomeBean.HOME_PAGE);
   }
 
   /**
@@ -141,6 +126,6 @@ public class ServiceBean extends AbstractBean {
       message.setError(e.getMessage());
     }
 
-    return forward(SERVICE_DASHBOARD_PAGE);
+    return SERVICE_DASHBOARD_PAGE + "?faces-redirect=true";
   }
 }
