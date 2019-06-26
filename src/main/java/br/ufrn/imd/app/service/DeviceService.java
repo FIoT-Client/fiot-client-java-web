@@ -47,7 +47,13 @@ public class DeviceService implements DeviceServiceI {
   }
 
   @Override
-  public void delete(Device entity) throws BusinessException {}
+  public void delete(Device entity) throws BusinessException {
+    Integer id = entity.getId();
+    if (id == null || id <= 0) {
+      throw new BusinessException("Device: invalid id (" + id + ").");
+    }
+    dao.delete(entity);
+  }
 
   @Override
   public void validate(Device entity) throws BusinessException {

@@ -52,6 +52,10 @@ public class ServiceService implements ServiceI<Service> {
 
   @Override
   public void delete(Service entity) throws BusinessException {
+    Integer id = entity.getId();
+    if (id == null || id == 0) {
+      throw new BusinessException("Service: invalid id (" + id + ").");
+    }
 
     dao.delete(entity);
   }

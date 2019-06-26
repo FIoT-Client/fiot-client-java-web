@@ -10,10 +10,16 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 /** Class that representes a IoT device (thing). */
 @Entity
-@Table(name = "devices")
+@Table(
+    name = "devices",
+    uniqueConstraints =
+        @UniqueConstraint(
+            name = "UC_device_entity_name",
+            columnNames = {"id_service", "device_name", "entity_name"}))
 public class Device implements Validatable {
 
   /* TODO Replace this with a EmbebbedId for service,deviceName,entityName. */
@@ -35,7 +41,7 @@ public class Device implements Validatable {
   private String jsonDescriptor;
 
   @JoinColumn(name = "id_service")
-  @ManyToOne(cascade = CascadeType.ALL)
+  @ManyToOne(cascade = CascadeType.PERSIST)
   private Service service;
 
   /**

@@ -148,11 +148,12 @@ public class DeviceBean extends AbstractBean {
     try {
       newDevice = deviceService.save(newDevice);
 
-      showSuccessMessage("Saved with succeess.\n" + newDevice);
+      showSuccessMessage("Saved with success.\n" + newDevice);
     } catch (BusinessException e) {
       showErrorMessage(e.getMessage());
     }
 
+    filterDevices();
     return DEVICE_DASHBOARD_PAGE;
   }
 
@@ -162,8 +163,15 @@ public class DeviceBean extends AbstractBean {
    * @return redirection after operation finishes
    */
   public String delete(Integer deviceId) {
-    // TODO implement delete method
-    return DEVICE_DASHBOARD_PAGE;
+    try {
+      deviceService.delete(new Device(deviceId));
+
+      showSuccessMessage("Device deleted successfully.");
+    } catch (BusinessException e) {
+      showErrorMessage(e.getMessage());
+    }
+
+    return DEVICE_DASHBOARD_PAGE + "?faces-redirect=true";
   }
 
   /**

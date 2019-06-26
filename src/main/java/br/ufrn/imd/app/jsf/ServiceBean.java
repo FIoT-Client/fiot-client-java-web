@@ -121,9 +121,9 @@ public class ServiceBean extends AbstractBean {
     try {
       service.delete(new Service(serviceId));
 
-      message.setSuccess("Service deleted successfully.");
+      showSuccessMessage("Service deleted successfully.");
     } catch (BusinessException e) {
-      message.setError(e.getMessage());
+      showErrorMessage(e.getMessage());
     }
 
     return SERVICE_DASHBOARD_PAGE + "?faces-redirect=true";

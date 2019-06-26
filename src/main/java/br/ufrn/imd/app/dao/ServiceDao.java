@@ -61,10 +61,6 @@ public class ServiceDao implements DaoI<Service> {
   @Override
   public void delete(Service entity) throws BusinessException {
     Integer id = entity.getId();
-    if (id == null || id == 0) {
-      throw new IllegalArgumentException("Service: id incorrect - " + id);
-    }
-
     try {
       Service service = entityManager.find(Service.class, id);
       entityManager.remove(service);

@@ -6,6 +6,8 @@ import br.ufrn.imd.app.model.Service;
 import java.util.List;
 import java.util.Optional;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
+import javax.transaction.Transactional;
 
 public class DeviceDao implements DaoI<Device> {
 
@@ -15,6 +17,7 @@ public class DeviceDao implements DaoI<Device> {
     this.entityManager = entityManager;
   }
 
+  @Transactional
   @Override
   public Device save(Device entity) throws BusinessException {
     Service service = entityManager.find(Service.class, entity.getService().getId());
@@ -31,6 +34,7 @@ public class DeviceDao implements DaoI<Device> {
     return entity;
   }
 
+  @Transactional
   @Override
   public List<Device> findAll() {
     return entityManager.createQuery("SELECT d FROM Device d", Device.class).getResultList();
@@ -41,8 +45,19 @@ public class DeviceDao implements DaoI<Device> {
     return Optional.empty();
   }
 
+  @Transactional
   @Override
-  public void delete(Device entity) throws BusinessException {}
+  public void delete(Device entity) throws BusinessException {
+    Integer id = entity.getId();
+    try {
+      Device device = entityManager.find(Device.class, id);
+      entityManager.remove(device);
+    } catch (EntityNotFoundException e) {
+      throw new BusinessException("Device: entity not found for id (" + id + ").");
+    } catch (IllegalArgumentException e) {
+      throw new BusinessException("Try again in a few seconds.");
+    }
+  }
 
   /**
    * Finds all devices registered with the provided service.
@@ -50,6 +65,7 @@ public class DeviceDao implements DaoI<Device> {
    * @param selectedService the provided service
    * @return list of devices
    */
+  @Transactional
   public List<Device> findAllByService(Service selectedService) {
     return entityManager
         .createQuery("SELECT d FROM Device d WHERE d.service = :service", Device.class)
