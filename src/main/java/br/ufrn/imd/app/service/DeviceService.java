@@ -5,14 +5,15 @@ import br.ufrn.imd.app.dao.DeviceDao;
 import br.ufrn.imd.app.exception.BusinessException;
 import br.ufrn.imd.app.exception.DaoException;
 import br.ufrn.imd.app.model.Device;
+import br.ufrn.imd.app.model.Service;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-@Stateless
-public class DeviceService implements ServiceI<Device> {
+@Stateless(name = "DeviceService")
+public class DeviceService implements DeviceServiceI {
 
   @PersistenceContext(unitName = "fiot")
   private EntityManager entityManager;
@@ -37,7 +38,7 @@ public class DeviceService implements ServiceI<Device> {
 
   @Override
   public List<Device> findAll() {
-    return null;
+    return dao.findAll();
   }
 
   @Override
@@ -51,5 +52,25 @@ public class DeviceService implements ServiceI<Device> {
   @Override
   public void validate(Device entity) throws BusinessException {
     entity.validate();
+  }
+
+  /**
+   * Finds all devices registered with the provided service.
+   *
+   * @param selectedService the services used to filter the devices
+   * @return a list of devices
+   * @throws BusinessException if the provided service is not registered
+   * @throws NullPointerException if the provided service is null
+   */
+  public List<Device> findAllByService(Service selectedService) throws BusinessException {
+    if (selectedService == null) {
+      throw new NullPointerException();
+    }
+    Integer id = selectedService.getId();
+    if (id == null || id <= 0) {
+      throw new BusinessException("Service: invalid id. (" + id + ").");
+    }
+
+    return ((DeviceDao) dao).findAllByService(selectedService);
   }
 }

@@ -10,46 +10,87 @@
         <div class="row">
 
             <div class="col-sm-12">
-                <h2>Service</h2>
+                <h2>Devices</h2>
+
+                <hr/>
+
+                <h3>
+                    <h:outputText
+                            value="Selected: #{deviceBean.selectedService.name} - #{deviceBean.selectedService.path}"/>
+                </h3>
+
+                <h:form styleClass="form form-inline">
+                    <h:outputLabel for="service-selection" value="Service Name"/>
+                    <h:selectOneMenu id="service-selection" required="true"
+                                     value="#{deviceBean.serviceId}">
+                        <f:selectItem itemValue="0" itemLabel="Select a service"
+                                      itemDisabled="true"
+                                      noSelectionOption="true"/>
+
+                        <f:selectItems value="#{serviceBean.allServices}" var="service"
+                                       itemDescription="#{service.name}"
+                                       itemLabel="#{service.name} - #{service.path}"
+                                       itemValue="#{service.id}"/>
+                    </h:selectOneMenu>
+                    <div class="form-group">
+                        <h:commandButton styleClass="btn" value="Filter Devices"
+                                         action="#{deviceBean.filterDevices}"/>
+                    </div>
+                    <div class="form-group">
+                        <h:commandButton styleClass="btn" value="Reset filter"
+                                         action="#{deviceBean.resetFilter}" immediate="true"/>
+                    </div>
+                </h:form>
+
+                <hr/>
 
                 <h:form>
                     <h:commandButton styleClass="btn btn-primary" action="#{deviceBean.createPage}"
-                                     value="New Service"/>
+                                     value="New Device"/>
                 </h:form>
 
-                <h:outputText styleClass="h3" rendered="#{empty serviceBean.allServices}">
-                    No services to show.
-                </h:outputText>
-
                 <div class="table-responsive">
-                    <h:dataTable value="#{serviceBean.allServices}" var="service"
+                    <h:dataTable value="#{deviceBean.devicesDatasource}" var="device"
+                                 rendered="true"
                                  styleClass="table table-striped table-hover">
 
                         <h:column>
                             <f:facet name="header">Name</f:facet>
-                            #{service.name}
+                            #{device.deviceName}
                         </h:column>
 
                         <h:column>
-                            <f:facet name="header">Path</f:facet>
-                            #{service.path}
+                            <f:facet name="header">Entity</f:facet>
+                            #{device.entityName}
                         </h:column>
 
                         <h:column>
-                            <f:facet name="header">Api</f:facet>
-                            #{service.api}
+                            <f:facet name="header">Endpoint</f:facet>
+                            #{device.endpointAddress}:#{device.endpointPort}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">Service</f:facet>
+                            #{device.service.name} - #{device.service.path}
                         </h:column>
 
                         <h:column>
                             <f:facet name="header">Owner</f:facet>
-                            #{service.owner}
+                            #{device.service.owner}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">JSON</f:facet>
+                            #{device.jsonDescriptor}
+                            <!--                            <f:facet name="footer">Rodape</f:facet>-->
                         </h:column>
 
                         <h:column>
                             <h:form>
-                                <h:commandLink action="#{serviceBean.delete(service.id)}">
-                                    <span class="glyphicon glyphicon-trash"
-                                          style="color: #080808"/>
+                                <h:commandLink action="#{deviceBean.delete(device.id)}"
+                                               disabled="true">
+                                                        <span class="glyphicon glyphicon-trash"
+                                                              style="color: #080808"/>
                                 </h:commandLink>
                             </h:form>
                         </h:column>

@@ -30,7 +30,7 @@ public interface DaoI<T extends Validatable> {
    * @return a list of entities
    */
   @Transactional
-  List<Service> findAll();
+  List<T> findAll();
 
   /**
    * Searches for a entity by the id

@@ -32,8 +32,8 @@ public class DeviceDao implements DaoI<Device> {
   }
 
   @Override
-  public List<Service> findAll() {
-    return null;
+  public List<Device> findAll() {
+    return entityManager.createQuery("SELECT d FROM Device d", Device.class).getResultList();
   }
 
   @Override
@@ -43,4 +43,17 @@ public class DeviceDao implements DaoI<Device> {
 
   @Override
   public void delete(Device entity) throws BusinessException {}
+
+  /**
+   * Finds all devices registered with the provided service.
+   *
+   * @param selectedService the provided service
+   * @return list of devices
+   */
+  public List<Device> findAllByService(Service selectedService) {
+    return entityManager
+        .createQuery("SELECT d FROM Device d WHERE d.service = :service", Device.class)
+        .setParameter("service", selectedService)
+        .getResultList();
+  }
 }

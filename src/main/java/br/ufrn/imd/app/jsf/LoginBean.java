@@ -1,9 +1,7 @@
 package br.ufrn.imd.app.jsf;
 
 import br.ufrn.imd.app.model.User;
-import java.io.IOException;
 import javax.enterprise.context.RequestScoped;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -21,13 +19,7 @@ public class LoginBean extends AbstractBean {
   private String password;
 
   public static String loginPage() {
-    String redirect = redirect(LOGIN_PAGE);
-    try {
-      FacesContext.getCurrentInstance().getExternalContext().redirect(redirect);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-    return redirect;
+    return LOGIN_PAGE;
   }
 
   public String getUsername() {
@@ -56,13 +48,13 @@ public class LoginBean extends AbstractBean {
   public String login() {
     if (username == null || username.isEmpty()) {
       messageBean.setError("Login: campo obrigatório.");
-      return loginPage();
+      return "failure";
     }
     User user = new User(username);
     userBean.login(user);
 
     messageBean.setSuccess("Login realizado com sucesso.");
 
-    return HomeBean.HOME_PAGE;
+    return "success";
   }
 }

@@ -11,11 +11,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-/** Class that representes a IoT device (thing) */
+/** Class that representes a IoT device (thing). */
 @Entity
 @Table(name = "devices")
 public class Device implements Validatable {
 
+  /* TODO Replace this with a EmbebbedId for service,deviceName,entityName. */
   @Id @GeneratedValue private Integer id;
 
   @Column(name = "device_name")
@@ -37,7 +38,11 @@ public class Device implements Validatable {
   @ManyToOne(cascade = CascadeType.ALL)
   private Service service;
 
-  /** @deprecated */
+  /**
+   * Used for injection.
+   *
+   * @deprecated should not use
+   */
   @Deprecated
   public Device() {}
 
@@ -45,12 +50,30 @@ public class Device implements Validatable {
     this.id = id;
   }
 
+  /**
+   * Constructor for Device with fields.
+   *
+   * @param deviceName the device name
+   * @param entityName the entity name that will be persisted withing Cygnus
+   * @param endpointAddress the address of the device to receive commands
+   * @param endpointPort the port of the address
+   * @param jsonDescriptor a json descriptor of the device
+   * @throws NullPointerException A null pointer exception will be thrown if any of the parameters
+   *     sent is null.
+   */
   public Device(
       String deviceName,
       String entityName,
       String endpointAddress,
       Integer endpointPort,
       String jsonDescriptor) {
+    if (deviceName == null
+        || entityName == null
+        || endpointAddress == null
+        || endpointPort == null
+        || jsonDescriptor == null) {
+      throw new NullPointerException();
+    }
     this.deviceName = deviceName;
     this.entityName = entityName;
     this.endpointAddress = endpointAddress;
@@ -59,7 +82,20 @@ public class Device implements Validatable {
   }
 
   @Override
-  public void validate() throws BusinessException {}
+  public void validate() throws BusinessException {
+    // TODO: Implement validation of Device
+    //  Device Name Rules
+    //  Entity name rules
+    //  REGEX for address
+    //  Port validation ( > 0 )
+    //  JSON validator for jsonDescriptor
+    StringBuilder builder = new StringBuilder();
+
+    String errors = builder.toString();
+    if (!errors.isEmpty()) {
+      throw new BusinessException(errors);
+    }
+  }
 
   public Integer getId() {
     return id;

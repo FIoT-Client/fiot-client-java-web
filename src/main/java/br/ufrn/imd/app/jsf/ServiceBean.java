@@ -42,7 +42,7 @@ public class ServiceBean extends AbstractBean {
    * @return the redirection to service form page
    */
   public String createPage() {
-    return redirect(SERVICE_FORM_PAGE);
+    return SERVICE_FORM_PAGE;
   }
 
   /**

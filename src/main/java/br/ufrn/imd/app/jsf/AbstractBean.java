@@ -2,11 +2,15 @@ package br.ufrn.imd.app.jsf;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 public abstract class AbstractBean implements Serializable {
+
+  private static final Logger logger = Logger.getLogger(AbstractBean.class.getCanonicalName());
 
   @Inject private MessageBean message;
 
@@ -18,12 +22,13 @@ public abstract class AbstractBean implements Serializable {
    */
   protected static String forward(String uri) {
     ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+    String internalUri = buildInternalUri(uri, false);
     try {
-      externalContext.redirect(buildInternalUri(uri, false));
+      externalContext.dispatch(internalUri);
     } catch (IOException e) {
       e.printStackTrace();
     }
-    return null;
+    return internalUri;
   }
 
   /**
@@ -34,38 +39,45 @@ public abstract class AbstractBean implements Serializable {
    * @throws NullPointerException if the uri is null
    * @return a null for page view reloading
    */
-  protected static String redirect(String uri) {
+  static String redirect(String uri) {
     if (uri == null) {
       throw new NullPointerException();
     } else if (uri.isEmpty()) {
       throw new IllegalArgumentException();
     }
 
-    if (uri.charAt(0) == '/') {
-      return buildInternalUri(uri, true);
-    } else {
-      ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
-      try {
+    ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+    try {
+      if (uri.charAt(0) == '/') {
+        String internalUri = buildInternalUri(uri, true);
+        externalContext.redirect(internalUri);
+        return internalUri;
+      } else {
         externalContext.redirect(uri);
-      } catch (IOException e) {
-        /* Mal-formed URI or there is no file at uri */
-        e.printStackTrace();
       }
-      return "";
+    } catch (IOException e) {
+      /* Mal-formed URI or there is no file at uri */
+      logger.log(Level.WARNING, String.valueOf(e.getLocalizedMessage()));
     }
+    return "";
   }
 
   private static String buildInternalUri(String uri, boolean isRedirect) {
-    return FacesContext.getCurrentInstance().getExternalContext().getApplicationContextPath()
-        + uri
-        + (isRedirect ? ".xhtml?faces-redirect=true" : "");
+    String internalUri =
+        FacesContext.getCurrentInstance().getExternalContext().getApplicationContextPath()
+            + uri
+            + ".xhtml"
+            + (isRedirect ? "?faces-redirect=true" : "");
+
+    logger.log(Level.INFO, internalUri);
+    return internalUri;
   }
 
-  protected void showSuccessMessage(String msg) {
+  void showSuccessMessage(String msg) {
     message.setSuccess(msg);
   }
 
-  protected void showErrorMessage(String msg) {
+  void showErrorMessage(String msg) {
     message.setError(msg);
   }
 }

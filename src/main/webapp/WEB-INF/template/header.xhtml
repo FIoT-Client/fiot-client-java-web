@@ -13,12 +13,12 @@
                         <span class="icon-bar"/>
 
                     </button>
-                    <h:commandLink action="/home?faces-redirect=true" value="FIoT Web ON"
+                    <h:commandLink action="/home" value="FIoT Web"
                                    styleClass="navbar-brand navbar-left"
                                    rendered="#{userBean.logged}"/>
-                    <h:commandLink action="#{loginBean.loginPage}" value="FIoT Web OFF"
+                    <h:commandLink action="/login" value="FIoT Web"
                                    styleClass="navbar-brand navbar-left"
-                                   rendered="#{!userBean.logged}"/>
+                                   rendered="#{not userBean.logged}"/>
                 </div>
 
                 <div class="navbar-collapse collapse">
@@ -32,8 +32,16 @@
                                            rendered="#{userBean.logged}"/>
                         </li>
                         <li>
+                            <h:commandLink action="#{deviceBean.indexPage}" value="Devices"
+                                           rendered="#{userBean.logged}"/>
+                        </li>
+                        <li>
                             <h:commandLink value="Logout" action="#{userBean.logout}"
                                            rendered="#{userBean.logged}"/>
+                        </li>
+                        <li>
+                            <h:commandLink value="Login" action="#{loginBean.loginPage}"
+                                           rendered="#{not userBean.logged}"/>
                         </li>
                     </ul>
                 </div>
