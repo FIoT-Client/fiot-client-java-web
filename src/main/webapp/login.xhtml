@@ -1,0 +1,51 @@
+<ui:composition template="/WEB-INF/template/layout.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="title">WEB 2 - Página inicial</ui:define>
+
+    <ui:define name="content">
+        <div class="row">
+            <div class="col-sm-12 col-md-offset-2 col-md-4">
+                <h:form styleClass="form">
+                    <h2>Login</h2>
+                    <div class="form-group">
+                        <h:outputLabel for="login-username" value="Username"/>
+                        <h:inputText id="login-username" value="#{loginBean.username}"/>
+                    </div>
+                    <div class="form-group">
+                        <h:outputLabel for="login-password" value="Password"/>
+                        <h:inputText id="login-password" role="password" value="#{loginBean.password}"
+                                     pt:type="password"/>
+                    </div>
+
+                    <div class="form-group">
+                        <h:commandButton type="submit" value="Login" action="#{loginBean.login}"/>
+                    </div>
+                </h:form>
+            </div>
+            <div class="col-sm-12 col-md-4">
+                <h:form styleClass="form">
+                    <h2>Sign Up</h2>
+                    <div class="form-group">
+                        <h:outputLabel for="signin-username" value="Username"/>
+                        <h:inputText id="signin-username" value="#{loginBean.username}"/>
+                    </div>
+                    <div class="form-group">
+                        <h:outputLabel for="signin-password" value="Password" role=""/>
+                        <h:inputText id="signin-password" role="password" value="#{loginBean.password}"
+                                     pt:type="password"/>
+                    </div>
+
+                    <div class="form-group">
+                        <h:commandButton type="submit" value="Login" action="#{loginBean.login}"/>
+                    </div>
+                </h:form>
+            </div>
+        </div>
+    </ui:define>
+
+</ui:composition>

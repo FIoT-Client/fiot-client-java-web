@@ -1,0 +1,104 @@
+<ui:composition template="/WEB-INF/template/layout.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+    <ui:define name="content">
+
+        <div class="row">
+
+            <div class="col-sm-12">
+                <h2>Devices</h2>
+
+                <hr/>
+
+                <h3>
+                    <h:outputText
+                            value="Selected: #{deviceBean.selectedService.name} - #{deviceBean.selectedService.path}"/>
+                </h3>
+
+                <h:form styleClass="form form-inline">
+                    <h:outputLabel for="service-selection" value="Service Name"/>
+                    <h:selectOneMenu id="service-selection" required="true"
+                                     value="#{deviceBean.serviceId}">
+                        <f:selectItem itemValue="0" itemLabel="Select a service"
+                                      itemDisabled="true"
+                                      noSelectionOption="true"/>
+
+                        <f:selectItems value="#{serviceBean.allServices}" var="service"
+                                       itemDescription="#{service.name}"
+                                       itemLabel="#{service.name} - #{service.path}"
+                                       itemValue="#{service.id}"/>
+                    </h:selectOneMenu>
+                    <div class="form-group">
+                        <h:commandButton styleClass="btn" value="Filter Devices"
+                                         action="#{deviceBean.filterDevices}"/>
+                    </div>
+                    <div class="form-group">
+                        <h:commandButton styleClass="btn" value="Reset filter"
+                                         action="#{deviceBean.resetFilter}" immediate="true"/>
+                    </div>
+                </h:form>
+
+                <hr/>
+
+                <h:form>
+                    <h:commandButton styleClass="btn btn-primary" action="#{deviceBean.createPage}"
+                                     value="New Device"/>
+                </h:form>
+
+                <div class="table-responsive">
+                    <h:dataTable value="#{deviceBean.devicesDatasource}" var="device"
+                                 rendered="true"
+                                 styleClass="table table-striped table-hover">
+
+                        <h:column>
+                            <f:facet name="header">Name</f:facet>
+                            #{device.deviceName}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">Entity</f:facet>
+                            #{device.entityName}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">Endpoint</f:facet>
+                            #{device.endpointAddress}:#{device.endpointPort}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">Service</f:facet>
+                            #{device.service.name} - #{device.service.path}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">Owner</f:facet>
+                            #{device.service.owner}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">JSON</f:facet>
+                            #{device.jsonDescriptor}
+                            <!--                            <f:facet name="footer">Rodape</f:facet>-->
+                        </h:column>
+
+                        <h:column>
+                            <h:form>
+                                <h:commandLink action="#{deviceBean.delete(device.id)}">
+                                    <span class="glyphicon glyphicon-trash"
+                                          style="color: #080808"/>
+                                </h:commandLink>
+                            </h:form>
+                        </h:column>
+
+                    </h:dataTable>
+                </div>
+            </div>
+        </div>
+
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,77 @@
+<ui:composition template="/WEB-INF/template/layout.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+    <ui:define name="content">
+
+        <div class="row">
+            <div class="container">
+                <h:form styleClass="form">
+                    <div class="col-sm-12">
+                        <h2>Device</h2>
+                        <h3>New Device</h3>
+                        <div class="form-group">
+                            <h:outputLabel for="service-selection" value="Service Name"/>
+                            <h:selectOneMenu id="service-selection"
+                                             value="#{deviceBean.serviceId}">
+                                <f:selectItem itemValue="0" itemLabel="Select a service"
+                                              itemDisabled="true"
+                                              noSelectionOption="true"/>
+
+                                <f:selectItems value="#{serviceBean.allServices}" var="service"
+                                               itemDescription="#{service.name}"
+                                               itemLabel="#{service.name} - #{service.path}"
+                                               itemValue="#{service.id}"/>
+                            </h:selectOneMenu>
+                        </div>
+                        <div class="form-group">
+                            <h:outputLabel for="device-name" value="Device Name"/>
+                            <h:inputText id="device-name" value="#{deviceBean.deviceName}"
+                                         pt:placeholder="Ex: Arduino001" required="true"/>
+                        </div>
+
+                        <div class="form-group">
+                            <h:outputLabel for="entity-name" value="Entity Name"/>
+                            <h:inputText id="entity-name" value="#{deviceBean.entityName}"
+                                         pt:placeholder="Ex: Arduino001" required="true"/>
+                        </div>
+
+                        <div class="form-group">
+                            <h:outputLabel for="endpoint-address" value="Endpoint Address"/>
+                            <h:inputText id="endpoint-address" value="#{deviceBean.endpointAddress}"
+                                         pt:placeholder="Ex: 127.0.0.1" required="false"/>
+                        </div>
+
+                        <div class="form-group">
+                            <h:outputLabel for="endpoint-port" value="Endpoint Port"/>
+                            <h:inputText id="endpoint-port" value="#{deviceBean.endpointPort}"
+                                         pt:placeholder="Ex: 8080" required="false"/>
+                        </div>
+
+                        <div class="form-group">
+                            <h:outputLabel for="json-descriptor" value="JSON Descriptor"/>
+                            <h:inputTextarea id="json-descriptor" value="#{deviceBean.jsonDescriptor}"
+                                         pt:placeholder="json data" required="false"/>
+                        </div>
+
+                        <div class="form-group">
+                            <h:commandButton styleClass="btn btn-primary" value="Create Device"
+                                             action="#{deviceBean.create}"/>
+                        </div>
+                        <div class="form-group">
+                            <h:commandButton styleClass="btn" value="Back"
+                                             action="#{homeBean.index}"
+                                             immediate="true"/>
+                        </div>
+
+                    </div>
+                </h:form>
+            </div>
+        </div>
+
+    </ui:define>
+
+</ui:composition>

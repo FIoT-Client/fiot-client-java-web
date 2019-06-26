@@ -1,0 +1,53 @@
+<ui:composition template="/WEB-INF/template/layout.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="title">WEB 2 - Página inicial</ui:define>
+
+    <ui:define name="content">
+        <h2>Dashboard</h2>
+
+        <div class="container">
+            <h:form styleClass="form">
+                <div class="row">
+                    <div class="col-sm-12 col-md-offset-2 col-md-4">
+                        <div class="form-group">
+                            <h3>New Service</h3>
+                            <h:commandButton styleClass="btn btn-dark"
+                                             value="Create a New Service"
+                                             action="#{serviceBean.createPage}"/>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12 col-md-4">
+                        <h3>Select Service</h3>
+                        <div class="form-group">
+                            <h:outputLabel for="service-selection" value="Service Name"/>
+                            <h:selectOneMenu id="service-selection"
+                                             value="#{deviceBean.serviceId}">
+                                <f:selectItem itemValue="0" itemLabel="Select a service"
+                                              itemDisabled="true"
+                                              noSelectionOption="true"/>
+
+                                <f:selectItems value="#{serviceBean.allServices}" var="service"
+                                               itemDescription="#{service.name}"
+                                               itemLabel="#{service.name} - #{service.path}"
+                                               itemValue="#{service.id}"/>
+                            </h:selectOneMenu>
+                        </div>
+
+                        <div class="form-group">
+                            <h:commandButton styleClass="btn btn-dark" value="Select Service"
+                                             action="#{deviceBean.filterDevices}"/>
+                        </div>
+                    </div>
+
+                </div>
+            </h:form>
+
+        </div>
+    </ui:define>
+
+</ui:composition>

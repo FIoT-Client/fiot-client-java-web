@@ -1,0 +1,51 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <h:form>
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse"
+                            data-target=".navbar-collapse">
+                        <span class="icon-bar"/>
+                        <span class="icon-bar"/>
+
+                    </button>
+                    <h:commandLink action="/home" value="FIoT Web"
+                                   styleClass="navbar-brand navbar-left"
+                                   rendered="#{userBean.logged}"/>
+                    <h:commandLink action="/login" value="FIoT Web"
+                                   styleClass="navbar-brand navbar-left"
+                                   rendered="#{not userBean.logged}"/>
+                </div>
+
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <h:commandLink action="#{homeBean.index}" value="Dashboard"
+                                           rendered="#{userBean.logged}"/>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{serviceBean.indexPage}" value="Services"
+                                           rendered="#{userBean.logged}"/>
+                        </li>
+                        <li>
+                            <h:commandLink action="#{deviceBean.indexPage}" value="Devices"
+                                           rendered="#{userBean.logged}"/>
+                        </li>
+                        <li>
+                            <h:commandLink value="Logout" action="#{userBean.logout}"
+                                           rendered="#{userBean.logged}"/>
+                        </li>
+                        <li>
+                            <h:commandLink value="Login" action="#{loginBean.loginPage}"
+                                           rendered="#{not userBean.logged}"/>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </h:form>
+</ui:composition>
