@@ -53,7 +53,6 @@ public class Service implements Serializable, Validatable {
    * @param api the api of service
    */
   public Service(String name, String path, String api) {
-    this();
     this.name = name;
     this.path = path;
     this.api = api;
@@ -66,12 +65,13 @@ public class Service implements Serializable, Validatable {
    * @param path the path of the service
    */
   public Service(String name, String path) {
-    this();
     this.name = name;
     this.path = path;
     this.api = UUID.randomUUID().toString();
   }
 
+  /** @deprecated */
+  @Deprecated
   public Service() {}
 
   /**

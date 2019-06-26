@@ -3,10 +3,8 @@ package br.ufrn.imd.app.service;
 import br.ufrn.imd.app.dao.DaoI;
 import br.ufrn.imd.app.dao.ServiceDao;
 import br.ufrn.imd.app.exception.BusinessException;
+import br.ufrn.imd.app.exception.DaoException;
 import br.ufrn.imd.app.model.Service;
-import br.ufrn.imd.app.validator.Validatable;
-import br.ufrn.imd.fiotclient.iot.FiwareIotClient;
-import java.io.IOException;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
@@ -17,27 +15,13 @@ import javax.persistence.PersistenceContext;
 public class ServiceService implements ServiceI<Service> {
 
   @PersistenceContext(unitName = "fiot") // , type = PersistenceContextType.EXTENDED)
-  EntityManager entityManager;
+  private EntityManager entityManager;
 
-  private FiwareIotClient fiotIot;
   private DaoI<Service> dao;
 
   @PostConstruct
   public void init() {
     this.dao = new ServiceDao(entityManager);
-    try {
-      this.fiotIot = new FiwareIotClient(getConfigLocation());
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-  }
-
-  private String getConfigLocation() {
-    String configFile =
-        this.getClass().getProtectionDomain().getCodeSource().getLocation().getFile();
-
-    configFile += '/' + "config.ini";
-    return configFile;
   }
 
   @Override
@@ -46,8 +30,8 @@ public class ServiceService implements ServiceI<Service> {
 
     try {
       return dao.save(entity);
-    } catch (Exception e) {
-      throw new BusinessException(e.getMessage());
+    } catch (DaoException e) {
+      throw new BusinessException("Connection error, try again in a few minutes.");
     }
   }
 
@@ -63,8 +47,7 @@ public class ServiceService implements ServiceI<Service> {
     }
 
     return dao.findById(id)
-        .orElseThrow(
-            () -> new BusinessException("Can't find Service with id (" + id + ")"));
+        .orElseThrow(() -> new BusinessException("Can't find Service with id (" + id + ")"));
   }
 
   @Override
@@ -73,7 +56,8 @@ public class ServiceService implements ServiceI<Service> {
     dao.delete(entity);
   }
 
-  private void validate(Validatable entity) throws BusinessException {
+  @Override
+  public void validate(Service entity) throws BusinessException {
     entity.validate();
   }
 }

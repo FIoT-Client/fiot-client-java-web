@@ -4,8 +4,11 @@ import java.io.IOException;
 import java.io.Serializable;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 
 public abstract class AbstractBean implements Serializable {
+
+  @Inject private MessageBean message;
 
   /**
    * Forwards to another page keeping request information.
@@ -16,7 +19,7 @@ public abstract class AbstractBean implements Serializable {
   protected static String forward(String uri) {
     ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
     try {
-      externalContext.redirect(buildInternalUri(uri));
+      externalContext.redirect(buildInternalUri(uri, false));
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -38,26 +41,31 @@ public abstract class AbstractBean implements Serializable {
       throw new IllegalArgumentException();
     }
 
-    ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
-    try {
-
-      String finalUri;
-      if (uri.charAt(0) == '/') {
-        finalUri = buildInternalUri(uri);
-      } else {
-        finalUri = uri;
+    if (uri.charAt(0) == '/') {
+      return buildInternalUri(uri, true);
+    } else {
+      ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+      try {
+        externalContext.redirect(uri);
+      } catch (IOException e) {
+        /* Mal-formed URI or there is no file at uri */
+        e.printStackTrace();
       }
-
-      externalContext.redirect(finalUri);
-    } catch (IOException e) {
-      e.printStackTrace();
+      return "";
     }
-    return null;
   }
 
-  private static String buildInternalUri(String uri) {
+  private static String buildInternalUri(String uri, boolean isRedirect) {
     return FacesContext.getCurrentInstance().getExternalContext().getApplicationContextPath()
         + uri
-        + ".xhtml";
+        + (isRedirect ? ".xhtml?faces-redirect=true" : "");
+  }
+
+  protected void showSuccessMessage(String msg) {
+    message.setSuccess(msg);
+  }
+
+  protected void showErrorMessage(String msg) {
+    message.setError(msg);
   }
 }

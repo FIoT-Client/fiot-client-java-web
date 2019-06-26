@@ -6,9 +6,7 @@ import java.io.Serializable;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
-/**
- * Session Bean that keeps the logged user information.
- */
+/** Session Bean that keeps the logged user information. */
 @Named
 @SessionScoped
 public class UserBean implements Serializable {
@@ -17,7 +15,7 @@ public class UserBean implements Serializable {
 
   public String logout() {
     user = null;
-    return "login";
+    return "/login?faces-redirect=true";
   }
 
   public boolean isLogged() {

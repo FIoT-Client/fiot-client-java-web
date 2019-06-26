@@ -1,28 +1,34 @@
 package br.ufrn.imd.app.jsf;
 
 import br.ufrn.imd.app.model.User;
-
+import java.io.IOException;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-/**
- * Bean that representes the state of login.
- */
+/** Bean that representes the state of login. */
 @Named
 @RequestScoped
 public class LoginBean extends AbstractBean {
 
   private static final String LOGIN_PAGE = "/login";
 
-  @Inject
-  private UserBean userBean;
-
-  @Inject
-  private MessageBean messageBean;
+  @Inject private UserBean userBean;
+  @Inject private MessageBean messageBean;
 
   private String username;
   private String password;
+
+  public static String loginPage() {
+    String redirect = redirect(LOGIN_PAGE);
+    try {
+      FacesContext.getCurrentInstance().getExternalContext().redirect(redirect);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    return redirect;
+  }
 
   public String getUsername() {
     return username;
@@ -57,10 +63,6 @@ public class LoginBean extends AbstractBean {
 
     messageBean.setSuccess("Login realizado com sucesso.");
 
-    return "home";
-  }
-
-  public static String loginPage() {
-    return redirect(LOGIN_PAGE);
+    return HomeBean.HOME_PAGE;
   }
 }

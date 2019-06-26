@@ -26,7 +26,7 @@
                         <div class="form-group">
                             <h:outputLabel for="service-selection" value="Service Name"/>
                             <h:selectOneMenu id="service-selection"
-                                             value="#{serviceBean.serviceId}">
+                                             value="#{deviceBean.serviceId}">
                                 <f:selectItem itemValue="0" itemLabel="Select a service"
                                               itemDisabled="true"
                                               noSelectionOption="true"/>
@@ -40,7 +40,7 @@
 
                         <div class="form-group">
                             <h:commandButton styleClass="btn btn-dark" value="Select Service"
-                                             action="#{serviceBean.selectService}"/>
+                                             action="#{deviceBean.selectService}"/>
                         </div>
                     </div>
 

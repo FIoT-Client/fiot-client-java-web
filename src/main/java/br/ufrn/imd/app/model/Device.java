@@ -37,6 +37,27 @@ public class Device implements Validatable {
   @ManyToOne(cascade = CascadeType.ALL)
   private Service service;
 
+  /** @deprecated */
+  @Deprecated
+  public Device() {}
+
+  public Device(Integer id) {
+    this.id = id;
+  }
+
+  public Device(
+      String deviceName,
+      String entityName,
+      String endpointAddress,
+      Integer endpointPort,
+      String jsonDescriptor) {
+    this.deviceName = deviceName;
+    this.entityName = entityName;
+    this.endpointAddress = endpointAddress;
+    this.endpointPort = endpointPort;
+    this.jsonDescriptor = jsonDescriptor;
+  }
+
   @Override
   public void validate() throws BusinessException {}
 
@@ -46,5 +67,53 @@ public class Device implements Validatable {
 
   public void setId(Integer id) {
     this.id = id;
+  }
+
+  public String getDeviceName() {
+    return deviceName;
+  }
+
+  public void setDeviceName(String deviceName) {
+    this.deviceName = deviceName;
+  }
+
+  public String getEntityName() {
+    return entityName;
+  }
+
+  public void setEntityName(String entityName) {
+    this.entityName = entityName;
+  }
+
+  public String getEndpointAddress() {
+    return endpointAddress;
+  }
+
+  public void setEndpointAddress(String endpointAddress) {
+    this.endpointAddress = endpointAddress;
+  }
+
+  public Integer getEndpointPort() {
+    return endpointPort;
+  }
+
+  public void setEndpointPort(Integer endpointPort) {
+    this.endpointPort = endpointPort;
+  }
+
+  public String getJsonDescriptor() {
+    return jsonDescriptor;
+  }
+
+  public void setJsonDescriptor(String jsonDescriptor) {
+    this.jsonDescriptor = jsonDescriptor;
+  }
+
+  public Service getService() {
+    return service;
+  }
+
+  public void setService(Service service) {
+    this.service = service;
   }
 }

@@ -1,6 +1,7 @@
 package br.ufrn.imd.app.dao;
 
 import br.ufrn.imd.app.exception.BusinessException;
+import br.ufrn.imd.app.exception.DaoException;
 import br.ufrn.imd.app.model.Service;
 import br.ufrn.imd.app.validator.Validatable;
 import java.util.List;
@@ -21,7 +22,7 @@ public interface DaoI<T extends Validatable> {
    * @throws BusinessException in case a business rule go wrong
    */
   @Transactional
-  T save(T entity) throws BusinessException;
+  T save(T entity) throws BusinessException, DaoException;
 
   /**
    * Query the database for all entities of that kind.
